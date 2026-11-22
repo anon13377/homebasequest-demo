@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Home Base Quest DEMO</title>
+<meta name="description" content="Practice copy of Home Base Quest with made up data. Nothing here is real.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF6EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1814" media="(prefers-color-scheme: dark)">
+<!-- DEMO: no manifest link and no service worker, so the demo never installs or caches over the real app. -->
+<link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/kid.css">
+<link rel="stylesheet" href="css/parent.css">
+<style>
+.demo-banner { position: sticky; top: 0; z-index: 1000; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 6px 10px; background: #FFD84D; color: #1C1814; font-size: 14px; font-weight: 700; border-bottom: 2px solid #1C1814; }
+.demo-banner .demo-text { flex: 1 1 100%; }
+.demo-banner button { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 8px; border: 1px solid #1C1814;
+  background: #fff; color: #1C1814; cursor: pointer; min-height: 32px; }
+.demo-banner button[data-demo-reset] { background: #1C1814; color: #FFD84D; margin-left: auto; }
+.demo-banner .demo-pin { font-weight: 400; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="demo-banner" role="note" data-demo-banner>
+  <span class="demo-text">DEMO: practice data, nothing here is real</span>
+  <button type="button" data-demo-go="e">Kid E</button>
+  <button type="button" data-demo-go="m">Kid M</button>
+  <button type="button" data-demo-go="parent">Parent</button>
+  <span class="demo-pin">PIN 1234</span>
+  <button type="button" data-demo-reset>Reset demo</button>
+</div>
+<header class="app-bar">
+  <span class="app-title">Home Base Quest DEMO</span>
+  <button type="button" class="btn-icon" id="mode-switch" hidden aria-label="Switch between kid and parent views">Parent</button>
+  <a class="btn-icon" href="guide.html" aria-label="Help">Help</a>
+  <button type="button" class="btn-icon" id="theme-toggle" aria-label="Switch light or dark">Theme</button>
+</header>
+<main id="app" class="screen" tabindex="-1">
+  <section class="card">
+    <h1>Home Base Quest DEMO</h1>
+    <p class="muted">Loading...</p>
+  </section>
+</main>
+<noscript><p class="card">Home Base Quest needs JavaScript turned on.</p></noscript>
+<script type="module">
+// DEMO shell: theme toggle (demo key), seed on first load, then the normal router. No service worker on purpose.
+const root = document.getElementById("app");
+const KEY = "hbqdemo:theme";
+function applyTheme(t) {
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+  else delete document.documentElement.dataset.theme;
+}
+try { applyTheme(localStorage.getItem(KEY)); } catch (e) { /* storage blocked: follow the system */ }
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  const dark = document.documentElement.dataset.theme
+    ? document.documentElement.dataset.theme === "dark"
+    : matchMedia("(prefers-color-scheme: dark)").matches;
+  const next = dark ? "light" : "dark";
+  applyTheme(next);
+  try { localStorage.setItem(KEY, next); } catch (e) { /* per device convenience only */ }
+});
+(async () => {
+  const seedMod = await import("./js/demoseed.js");
+  document.querySelector("[data-demo-reset]").addEventListener("click", () => seedMod.resetDemo());
+  try { window.__demoSeed = await seedMod.ensureSeed(); } catch (e) { console.warn("demo seed failed"); }
+  const m = await import("./js/router.js");
+  const ctx = await m.boot(root);
+  window.__demoCtx = ctx;
+  for (const b of document.querySelectorAll("[data-demo-go]")) {
+    b.addEventListener("click", () => {
+      if (!ctx) return;
+      const who = b.dataset.demoGo;
+      if (who === "parent") ctx.go("parent-board");
+      else ctx.go("today", { kid: who });
+    });
+  }
+})().catch(() => {
+  root.querySelector(".muted").textContent = "The demo could not start. Reload the page.";
+});
+</script>
+</body>
+</html>
