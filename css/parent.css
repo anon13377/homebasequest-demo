@@ -1,0 +1,67 @@
+/* Home Base Quest Parent mode (card W1-H). Tokens come from app.css (PICK.md, Lantern Paper): light and dark follow
+   the variables there. 56 px touch targets, no sideways scroll at 360 px, reduced motion honored. */
+
+.parent-shell { max-width: 720px; margin: 0 auto; padding: var(--sp-4) var(--pad-screen); min-width: 0; }
+.parent-shell * { min-width: 0; overflow-wrap: anywhere; }
+.phead { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+.phead h1 { margin: 0; }
+
+/* Section nav: wraps instead of scrolling sideways */
+.pnav { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+.pnav-btn {
+  position: relative; flex: 1 1 96px; min-height: var(--touch); padding: 0 var(--sp-3);
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+}
+.pnav-btn.active { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.pbadge {
+  display: inline-block; margin-left: var(--sp-2); min-width: 24px; padding: 0 var(--sp-2); border-radius: var(--r-chip);
+  background: var(--coin); color: var(--on-coin); font-size: var(--fs-label); line-height: 24px; text-align: center;
+}
+.pmsg { min-height: 1.4em; color: var(--text-muted); font-weight: 700; }
+
+/* Cards with a kid stripe (initial letter always shown too, never colour alone) */
+.pcard { border-left: 6px solid var(--border); }
+.pcard.kid-e { border-left-color: var(--kid-e); }
+.pcard.kid-m { border-left-color: var(--kid-m); }
+.pcard .kid-dot {
+  width: 28px; height: 28px; line-height: 28px; text-align: center; border-radius: 50%;
+  color: var(--on-primary); font-size: var(--fs-small); font-weight: 700; vertical-align: middle;
+}
+
+.stats { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
+.steps { list-style: none; margin: 0; padding: 0; }
+.step-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; border-top: 1px solid var(--border); }
+.step-name { flex: 1 1 140px; font-weight: 700; }
+.chip.st-self { border-color: var(--warning); color: var(--warning); }
+.chip.st-verified { border-color: var(--success); color: var(--success); }
+.chip.st-fix { border-color: var(--danger); color: var(--danger); }
+.weekline { margin: 0 0 var(--sp-2); }
+
+/* Forms */
+.parent-shell input[type="text"], .parent-shell input[type="number"], .parent-shell input[type="password"], .parent-shell select, .reason, .num-in, .pin-input {
+  display: block; width: 100%; min-height: var(--touch); padding: 0 var(--sp-3); margin: var(--sp-1) 0 var(--sp-3);
+  font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-btn);
+}
+.pin-input { letter-spacing: .4em; text-align: center; font-size: var(--fs-h1); }
+.pin-card { max-width: 420px; }
+.field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-2); align-items: end; margin-bottom: var(--sp-2); }
+.field .label { display: block; text-transform: none; letter-spacing: 0; font-size: var(--fs-small); }
+.subcard { border-top: 1px solid var(--border); padding-top: var(--sp-3); margin-top: var(--sp-3); }
+.fixlist[hidden] { display: none; }
+.fixlist { margin-top: var(--sp-3); }
+.fix-item { display: flex; align-items: center; gap: var(--sp-3); min-height: var(--touch); }
+.fix-item input[type="checkbox"] { width: 28px; height: 28px; flex: 0 0 auto; }
+
+/* Photos and pairing */
+.photo-box { flex-basis: 100%; margin: var(--sp-2) 0; }
+.photo-img { display: block; width: 100%; max-height: 70vh; object-fit: contain; border-radius: var(--r-card); background: var(--surface-2); }
+.qr { display: block; width: min(100%, 280px); height: auto; margin: var(--sp-3) auto; border-radius: var(--r-sm); }
+.pair-code { font-size: var(--fs-display); font-weight: 700; letter-spacing: .12em; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .parent-shell *, .parent-shell *::before, .parent-shell *::after { transition: none !important; animation: none !important; }
+}
+@media (max-width: 400px) {
+  .field { grid-template-columns: minmax(0, 1fr); }
+  .field button { width: 100%; }
+}
