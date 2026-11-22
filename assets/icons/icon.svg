@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Home Base Quest">
+  <rect width="512" height="512" rx="96" fill="#FBF6EE"/>
+  <path d="M96 236 L256 100 L416 236 Z" fill="#B4431F" stroke="#2A2118" stroke-width="12" stroke-linejoin="round"/>
+  <rect x="128" y="236" width="256" height="196" rx="16" fill="#F3EADB" stroke="#2A2118" stroke-width="12"/>
+  <rect x="160" y="268" width="72" height="60" rx="10" fill="#FFD27A" stroke="#2A2118" stroke-width="8"/>
+  <rect x="280" y="268" width="72" height="60" rx="10" fill="#FFD27A" stroke="#2A2118" stroke-width="8"/>
+  <rect x="226" y="352" width="60" height="80" rx="10" fill="#1F7A70" stroke="#2A2118" stroke-width="8"/>
+  <path d="M256 100 V52 L300 66 L256 80" fill="#E0A21B" stroke="#2A2118" stroke-width="8" stroke-linejoin="round"/>
+</svg>
